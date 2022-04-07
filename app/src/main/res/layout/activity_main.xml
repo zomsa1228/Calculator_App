@@ -21,34 +21,8 @@
             android:padding="0dp">
 
             <TextView
-                android:id="@+id/num2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="right"
-                android:padding="0dp"
-                android:textSize="60sp" />
-
-            <TextView
-                android:id="@+id/kigou"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="0dp"
-                android:layout_marginTop="0dp"
-                android:layout_marginEnd="0dp"
-                android:layout_marginBottom="0dp"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="right"
-                android:padding="0dp"
-                android:textSize="60sp" />
-
-            <TextView
                 android:id="@+id/num1"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="0dp"
                 android:layout_marginTop="0dp"
@@ -95,6 +69,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="Clear"
                 android:text="Clear"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -109,6 +84,7 @@
                 android:height="95dp"
                 android:background="#2196F3"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="enzan"
                 android:text="÷"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -132,6 +108,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="7"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -147,6 +124,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="8"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -162,6 +140,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="9"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -177,6 +156,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="enzan"
                 android:text="×"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -200,6 +180,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="4"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -215,6 +196,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="5"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -230,6 +212,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="6"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -245,6 +228,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="enzan"
                 android:text="-"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -268,6 +252,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="1"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -283,6 +268,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="2"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -298,6 +284,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="3"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -313,6 +300,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="enzan"
                 android:text="+"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -336,6 +324,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="onClick"
                 android:text="0"
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />
@@ -366,6 +355,7 @@
                 android:background="#03A9F4"
                 android:drawablePadding="0dp"
                 android:fontFamily="sans-serif-medium"
+                android:onClick="equal"
                 android:text="="
                 android:textSize="48sp"
                 app:cornerRadius="0dp" />

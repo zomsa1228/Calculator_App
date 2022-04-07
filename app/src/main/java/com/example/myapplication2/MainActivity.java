@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public Double Value4 = 0.0;
     public Integer valLen = 0;
     public String enzanVal = "";
+    public CharSequence textviewdata = "";
+
+
     // 0 = 未設定
     // 1 = +
     // 2 = -
@@ -31,7 +34,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         findViewById(R.id.button1).setOnClickListener(this::onClick);
         findViewById(R.id.button2).setOnClickListener(this::onClick);
         findViewById(R.id.button3).setOnClickListener(this::onClick);
@@ -42,23 +44,104 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button8).setOnClickListener(this::onClick);
         findViewById(R.id.button9).setOnClickListener(this::onClick);
         findViewById(R.id.button0).setOnClickListener(this::onClick);
-        findViewById(R.id.plus).setOnClickListener(this);
-        findViewById(R.id.minus).setOnClickListener(this);
-        findViewById(R.id.times).setOnClickListener(this);
-        findViewById(R.id.division).setOnClickListener(this);
-        findViewById(R.id.equal).setOnClickListener(this);
-        findViewById(R.id.Clear).setOnClickListener(this);
+
+        findViewById(R.id.plus).setOnClickListener(this::enzan);
+        findViewById(R.id.minus).setOnClickListener(this::enzan);
+        findViewById(R.id.times).setOnClickListener(this::enzan);
+        findViewById(R.id.division).setOnClickListener(this::enzan);
+        findViewById(R.id.equal).setOnClickListener(this::equal);
+        findViewById(R.id.Clear).setOnClickListener(this::Clear);
+    }
+
+    //演算子 +-/*を押したときの処理
+    public void enzan(View button){
+        TextView textView1 = (TextView) findViewById(R.id.num1);
+        TextView val1 = (TextView) findViewById(R.id.val1);
+        TextView val2 = (TextView) findViewById(R.id.val2);
+        TextView val3 = (TextView) findViewById(R.id.val3);
+
+        if (button.getId() == R.id.plus) {
+            enzan = 1;
+            enzanVal = " + ";
+
+        } else if (button.getId() == R.id.minus) {
+            enzan = 2;
+            enzanVal = " - ";
+
+        } else if (button.getId() == R.id.times) {
+            enzan = 3;
+            enzanVal = " × ";
+
+        } else if (button.getId() == R.id.division) {
+            enzan = 4;
+            enzanVal = " ÷ ";
+        }
+        once = false;
+
+        //文字を入れるためのkari変数を用意
+        //textView1のデータを取得する
+        textviewdata = textView1.getText();
+
+        //取得したデータに入っている文字に、Value2の数値を文字連結する
+        textviewdata = textviewdata + String.valueOf(enzanVal);
+
+        //テキストビューにデータを上書き
+        textView1.setText(textviewdata);
+
+        return;
+
+    }
+
+    //=を押したときの処理
+    public void equal(View equal){
+        TextView textView1 = (TextView) findViewById(R.id.num1);
+        TextView val1 = (TextView) findViewById(R.id.val1);
+        TextView val2 = (TextView) findViewById(R.id.val2);
+        TextView val3 = (TextView) findViewById(R.id.val3);
+
+        if (equal.getId() == R.id.equal) {
+            once = true;
+            textView1.setText(String.valueOf(""));
+            if (enzan == 1) {
+                Result_Num = Value1 + Value2;
+            } else if (enzan == 2) {
+                Result_Num = Value1 - Value2;
+            } else if (enzan == 3) {
+                Result_Num = Value1 * Value2;
+            } else if (enzan == 4) {
+                Result_Num = Value1 / Value2;
+            }
+            //Value2をtextView1に上書きする
+            textView1.setText(String.valueOf(Result_Num));
+        }
+    }
+
+    public void Clear(View Clear){
+        if (Clear.getId() == R.id.Clear) {
+            TextView textView1 = (TextView) findViewById(R.id.num1);
+            TextView val1 = (TextView) findViewById(R.id.val1);
+            TextView val2 = (TextView) findViewById(R.id.val2);
+            TextView val3 = (TextView) findViewById(R.id.val3);
+            //演算データ
+            Value1 = 0.0;
+            Value2 = 0.0;
+            once = true;
+
+            //上部のテキストビュー
+            textView1.setText(String.valueOf(0.0));
+
+            //下部の数値表示
+            val1.setText("Null");
+            val2.setText("Null");
+            val3.setText("Null");
+        }
     }
 
     public void onClick(View v) {
         TextView textView1 = (TextView) findViewById(R.id.num1);
-        TextView textView2 = (TextView) findViewById(R.id.num2);
-        TextView enzansi = (TextView) findViewById(R.id.kigou);
         TextView val1 = (TextView) findViewById(R.id.val1);
         TextView val2 = (TextView) findViewById(R.id.val2);
         TextView val3 = (TextView) findViewById(R.id.val3);
-        TextView enzansi_tv = (TextView) findViewById(R.id.enzan);
-
         //後半の数字入力処理
         if (once == false) {
 
@@ -90,32 +173,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 input_num = 9.0;
 
             }else if(v.getId() == R.id.button0){
-                Value2 = 1.0;
+                input_num = 0.0;
 
             }
 
-            System.out.println(Value2);
-
+            //Value2 == 0.0と言うのはいわゆるデータ上は何もまだ入力されていない状態、初回入力
             if(Value2 == 0.0){
-                Snackbar.make(v,"0.0である",Snackbar.LENGTH_LONG).show();
-                Value1 = input_num;
+                Value2 = input_num;
+                textviewdata = String.valueOf(input_num);
                 valLen = 1;
 
+                //0.0以外のデータが入っている場合、いわゆる何かしらデータが入っているとき
             }else{
-                //Value1の長さを計測
+
+                //Value2の長さを計測
                 valLen = String.valueOf(Value2).length();
 
                 //-2は小数点切り捨ての処理、文字列とし.0を切り捨てている
                 valLen = valLen - 2;
 
                 //桁用の計算Value1が1の場合1を10にして押された数字を足す
-                //1 →　10 →　11
+                //1 →1*10→　10　→10+1→　11
                 Value2 = (Value2 * 10) + input_num;
             }
-            CharSequence kari = textView1.getText();
-            kari = kari + String.valueOf(Value2);
+
+            //
             textView1.setText(String.valueOf(Value2));
+
             val2.setText(String.valueOf(Value2));
+            return;
+
         }
 
 //前半の数字入力処理
@@ -156,6 +243,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if(Value1 == 0.0){
                 Snackbar.make(v,"0.0である",Snackbar.LENGTH_LONG).show();
                 Value1 = input_num;
+                textviewdata = String.valueOf(input_num);
                 valLen = 1;
 
             }else{
@@ -168,82 +256,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 //桁用の計算Value1が1の場合1を10にして押された数字を足す
                 //1 →　10 →　11
                 Value1 = (Value1 * 10) + input_num;
-            }
 
-            CharSequence kari = textView1.getText();
-            kari = kari + String.valueOf(Value1);
+            }
+            //Value1をtextView1に上書きする
             textView1.setText(String.valueOf(Value1));
+
             val1.setText(String.valueOf(Value1));
-        }
-
-            //enzan
-            // 0 = 未設定
-            // 1 = +
-            // 2 = -
-            // 3 = *
-            // 4 = /
-
-        if (v.getId() == R.id.equal) {
-            textView1.setText(String.valueOf(""));
-            once = true;
-            if (enzan == 1) {
-                Result_Num = Value1 + Value2;
-            } else if (enzan == 2) {
-                Result_Num = Value1 - Value2;
-            } else if (enzan == 3) {
-                Result_Num = Value1 * Value2;
-            } else if (enzan == 4) {
-                Result_Num = Value1 / Value2;
-            }
-            textView1.setText(String.valueOf(Result_Num));
             return;
         }
 
-
-        if (v.getId() == R.id.plus) {
-                enzan = 1;
-                enzanVal = " + ";
-
-        } else if (v.getId() == R.id.minus) {
-                enzan = 2;
-                enzanVal = " - ";
-
-        } else if (v.getId() == R.id.times) {
-                enzan = 3;
-                enzanVal = " × ";
-
-        } else if (v.getId() == R.id.division) {
-                enzan = 4;
-                enzanVal = " ÷ ";
-
-        }
-
-        once = false;
-        CharSequence kari = textView1.getText();
-        kari = kari + enzanVal;
-        textView1.setText(kari);
-        return;
-
-        if (v.getId() == R.id.Clear) {
-                //演算データ
-                Value1 = 0.0;
-                Value2 = 0.0;
-                once = true;
-
-                //上部のテキストビュー
-                textView1.setText(String.valueOf(0.0));
-                enzansi.setText("");
-                textView2.setText("");
-
-                //下部の数値表示
-                val1.setText("Null");
-                val2.setText("Null");
-                val3.setText("Null");
-                enzansi_tv.setText("Null");
-            } else {
-                return;
-            }
-
-
-        }
     }
+}
