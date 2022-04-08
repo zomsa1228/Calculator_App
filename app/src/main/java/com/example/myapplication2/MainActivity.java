@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     public Double input_num = 1.0;
@@ -44,21 +42,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.button8).setOnClickListener(this::onClick);
         findViewById(R.id.button9).setOnClickListener(this::onClick);
         findViewById(R.id.button0).setOnClickListener(this::onClick);
-
         findViewById(R.id.plus).setOnClickListener(this::enzan);
         findViewById(R.id.minus).setOnClickListener(this::enzan);
         findViewById(R.id.times).setOnClickListener(this::enzan);
         findViewById(R.id.division).setOnClickListener(this::enzan);
         findViewById(R.id.equal).setOnClickListener(this::equal);
         findViewById(R.id.Clear).setOnClickListener(this::Clear);
+        findViewById(R.id.XY).setOnClickListener(this::power);
+    }
+
+    public void power(View power){
+        TextView textView1 = (TextView) findViewById(R.id.num1);
+        if (power.getId() == R.id.XY){
+            enzan = 5;
+            enzanVal = " ^ ";
+            once = false;
+
+            //文字を入れるためのkari変数を用意
+            //textView1のデータを取得する
+            textviewdata = textView1.getText();
+
+            //取得したデータに入っている文字に、Value2の数値を文字連結する
+            textviewdata = textviewdata + String.valueOf(enzanVal);
+
+            //テキストビューにデータを上書き
+            textView1.setText(textviewdata);
+
+            return;
+        }
     }
 
     //演算子 +-/*を押したときの処理
     public void enzan(View button){
         TextView textView1 = (TextView) findViewById(R.id.num1);
-        TextView val1 = (TextView) findViewById(R.id.val1);
-        TextView val2 = (TextView) findViewById(R.id.val2);
-        TextView val3 = (TextView) findViewById(R.id.val3);
 
         if (button.getId() == R.id.plus) {
             enzan = 1;
@@ -95,9 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //=を押したときの処理
     public void equal(View equal){
         TextView textView1 = (TextView) findViewById(R.id.num1);
-        TextView val1 = (TextView) findViewById(R.id.val1);
-        TextView val2 = (TextView) findViewById(R.id.val2);
-        TextView val3 = (TextView) findViewById(R.id.val3);
 
         if (equal.getId() == R.id.equal) {
             once = true;
@@ -110,6 +123,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Result_Num = Value1 * Value2;
             } else if (enzan == 4) {
                 Result_Num = Value1 / Value2;
+            } else if (enzan == 5) {
+                Result_Num = Math.pow(Value1, Value2);
             }
             //Value2をtextView1に上書きする
             textView1.setText(String.valueOf(Result_Num));
@@ -119,9 +134,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void Clear(View Clear){
         if (Clear.getId() == R.id.Clear) {
             TextView textView1 = (TextView) findViewById(R.id.num1);
-            TextView val1 = (TextView) findViewById(R.id.val1);
-            TextView val2 = (TextView) findViewById(R.id.val2);
-            TextView val3 = (TextView) findViewById(R.id.val3);
             //演算データ
             Value1 = 0.0;
             Value2 = 0.0;
@@ -129,19 +141,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //上部のテキストビュー
             textView1.setText(String.valueOf(0.0));
-
-            //下部の数値表示
-            val1.setText("Null");
-            val2.setText("Null");
-            val3.setText("Null");
         }
     }
 
     public void onClick(View v) {
         TextView textView1 = (TextView) findViewById(R.id.num1);
-        TextView val1 = (TextView) findViewById(R.id.val1);
-        TextView val2 = (TextView) findViewById(R.id.val2);
-        TextView val3 = (TextView) findViewById(R.id.val3);
         //後半の数字入力処理
         if (once == false) {
 
@@ -199,8 +203,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //
             textView1.setText(String.valueOf(Value2));
-
-            val2.setText(String.valueOf(Value2));
             return;
 
         }
@@ -241,7 +243,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println(input_num);
 
             if(Value1 == 0.0){
-                Snackbar.make(v,"0.0である",Snackbar.LENGTH_LONG).show();
                 Value1 = input_num;
                 textviewdata = String.valueOf(input_num);
                 valLen = 1;
@@ -254,14 +255,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 valLen = valLen - 2;
 
                 //桁用の計算Value1が1の場合1を10にして押された数字を足す
-                //1 →　10 →　11
+                //1 →1*10→　10 →10+1→　11
                 Value1 = (Value1 * 10) + input_num;
 
             }
             //Value1をtextView1に上書きする
             textView1.setText(String.valueOf(Value1));
-
-            val1.setText(String.valueOf(Value1));
             return;
         }
 
