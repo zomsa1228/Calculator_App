@@ -2,14 +2,9 @@ package com.example.myapplication2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-
-import java.math.BigDecimal;
-import java.math.BigInteger;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -55,12 +50,61 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.Clear).setOnClickListener(this::Clear);
 
     }
+    //関数電卓用：平方根計算
+    public void set_sqrt(View sqrt){
+        findViewById(R.id.sqrt).setOnClickListener(this::set_sqrt);
+        TextView textView1 = (TextView) findViewById(R.id.num1);
 
-    //関数電卓用：平方根
-    public void root(View root){
+        //変数Value1の平方根を
+        Result_Num = Math.sqrt(Value1);
 
+        //textview1の表示内容を消す
+        textView1.setText("");
 
+        //textviewにPisを代入
+        textView1.setText(String.valueOf(Result_Num));
+        return;
     }
+
+    //関数電卓用：立法根計算
+    public void set_cbrt(View cbrt){
+        findViewById(R.id.cbrt).setOnClickListener(this::set_cbrt);
+        TextView textView1 = (TextView) findViewById(R.id.num1);
+
+        //変数Value1の平方根を
+        Result_Num = Math.cbrt(Value1);
+
+        //textview1の表示内容を消す
+        textView1.setText("");
+
+        //textviewにPisを代入
+        textView1.setText(String.valueOf(Result_Num));
+        return;
+    }
+
+    //関数電卓用：n乗根計算
+    public void set_root(View root){
+        findViewById(R.id.root).setOnClickListener(this::set_root);
+        TextView textView1 = (TextView) findViewById(R.id.num1);
+
+        enzan = 6;
+        enzanVal = " √ ";
+        once = false;
+
+        System.out.println("Value1"+Value1);
+        System.out.println("Value2"+Value2);
+
+        //textView1のデータを取得する
+        textviewdata = textView1.getText();
+
+        //取得したデータに入っている文字に、Value2の数値を文字連結する
+        textviewdata = textviewdata + String.valueOf(enzanVal);
+
+        //テキストビューにデータを上書き
+        textView1.setText(textviewdata);
+        return;
+    }
+
 
     //関数電卓用：円周率表示プログラム
     public void pi(View pi) {
@@ -200,6 +244,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } else if (enzan == 5) {
 
                 Result_Num = Math.pow(Value1, Value2);
+
+            } else if (enzan == 6){
+
+                Result_Num = Math.pow(Math.sqrt(Value1), Value2);
+                //Result_Num = Value2 * Math.sqrt(Value1);
             }
 
             //Value1をtextView1に上書きする
