@@ -50,10 +50,77 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.Clear).setOnClickListener(this::Clear);
 
     }
+
+    public void rad(View rad){
+        findViewById(R.id.rad);
+        TextView textView1 = (TextView) findViewById(R.id.num1);
+        Result_Num = Math.toRadians(Value1);
+
+        //textview1の表示内容を消す
+        textView1.setText("");
+
+        //textviewにSin Cos Tanを代入
+        textView1.setText(String.valueOf(Result_Num));
+        return;
+    }
+
+    public void Trigonometric(View tri){
+        findViewById(R.id.sin).setOnClickListener(this::Trigonometric);
+        findViewById(R.id.cos).setOnClickListener(this::Trigonometric);
+        findViewById(R.id.tan).setOnClickListener(this::Trigonometric);
+        findViewById(R.id.sinh).setOnClickListener(this::Trigonometric);
+        findViewById(R.id.cosh).setOnClickListener(this::Trigonometric);
+        findViewById(R.id.tanh).setOnClickListener(this::Trigonometric);
+        TextView textView1 = (TextView) findViewById(R.id.num1);
+        TextView Value1_tv = (TextView) findViewById(R.id.Value1_tv);
+        TextView Value2_tv = (TextView) findViewById(R.id.Value2_tv);
+        Value1_tv.setText(String.valueOf(Value1));
+        Value2_tv.setText(String.valueOf(Value2));
+
+        if(tri.getId()==R.id.sin){
+            double rad = Math.toRadians(Value1);
+            Result_Num = Math.sin(rad);
+
+        }else if(tri.getId()==R.id.cos){
+            double rad = Math.toRadians(Value1);
+            Result_Num = Math.cos(rad);
+
+        }else if(tri.getId()==R.id.tan){
+            double rad = Math.toRadians(Value1);
+            Result_Num = Math.tan(rad);
+
+        }else if(tri.getId() == R.id.sinh){
+            Result_Num = Math.sinh(Value1);
+
+        }else if(tri.getId() == R.id.cosh){
+            Result_Num = Math.cosh(Value1);
+
+        }else if(tri.getId() == R.id.tanh){
+            Result_Num = Math.tanh(Value1);
+
+        }
+
+        Value1_tv.setText(String.valueOf(Value1));
+        Value2_tv.setText(String.valueOf(Value2));
+
+        //textview1の表示内容を消す
+        textView1.setText("");
+
+        //textviewにSin Cos Tanを代入
+        textView1.setText(String.valueOf(Result_Num));
+        return;
+
+    }
+
     //関数電卓用：平方根計算
     public void set_sqrt(View sqrt){
         findViewById(R.id.sqrt).setOnClickListener(this::set_sqrt);
         TextView textView1 = (TextView) findViewById(R.id.num1);
+        TextView Value1_tv = (TextView) findViewById(R.id.Value1_tv);
+        TextView Value2_tv = (TextView) findViewById(R.id.Value2_tv);
+
+        Value1_tv.setText(String.valueOf(Value1));
+        Value2_tv.setText(String.valueOf(Value2));
 
         //変数Value1の平方根を
         Result_Num = Math.sqrt(Value1);
@@ -70,6 +137,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void set_cbrt(View cbrt){
         findViewById(R.id.cbrt).setOnClickListener(this::set_cbrt);
         TextView textView1 = (TextView) findViewById(R.id.num1);
+        TextView Value1_tv = (TextView) findViewById(R.id.Value1_tv);
+        TextView Value2_tv = (TextView) findViewById(R.id.Value2_tv);
+
+        Value1_tv.setText(String.valueOf(Value1));
+        Value2_tv.setText(String.valueOf(Value2));
 
         //変数Value1の平方根を
         Result_Num = Math.cbrt(Value1);
@@ -83,27 +155,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //関数電卓用：n乗根計算
-    public void set_root(View root){
-        findViewById(R.id.root).setOnClickListener(this::set_root);
-        TextView textView1 = (TextView) findViewById(R.id.num1);
-
-        enzan = 6;
-        enzanVal = " √ ";
-        once = false;
-
-        System.out.println("Value1"+Value1);
-        System.out.println("Value2"+Value2);
-
-        //textView1のデータを取得する
-        textviewdata = textView1.getText();
-
-        //取得したデータに入っている文字に、Value2の数値を文字連結する
-        textviewdata = textviewdata + String.valueOf(enzanVal);
-
-        //テキストビューにデータを上書き
-        textView1.setText(textviewdata);
-        return;
-    }
+//    public void set_root(View root){
+//        findViewById(R.id.root).setOnClickListener(this::set_root);
+//        TextView textView1 = (TextView) findViewById(R.id.num1);
+//
+//        enzan = 6;
+//        enzanVal = " √ ";
+//        once = false;
+//
+//        System.out.println("Value1:"+Value1);
+//        System.out.println("Value2:"+Value2);
+//
+//        //textView1のデータを取得する
+//        textviewdata = textView1.getText();
+//
+//        //取得したデータに入っている文字に、Value2の数値を文字連結する
+//        textviewdata = textviewdata + String.valueOf(enzanVal);
+//
+//        //テキストビューにデータを上書き
+//        textView1.setText(textviewdata);
+//
+//    }
 
 
     //関数電卓用：円周率表示プログラム
@@ -230,8 +302,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (equal.getId() == R.id.equal) {
             once = true;
             textView1.setText(String.valueOf(""));
+
             if (enzan == 1) {
                 Result_Num = Value1 + Value2;
+
             } else if (enzan == 2) {
 
                 Result_Num = Value1 - Value2;
@@ -247,6 +321,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             } else if (enzan == 6){
 
+                System.out.println("Value1:"+Value1);
+                System.out.println("Value2:"+Value2);
                 Result_Num = Math.pow(Math.sqrt(Value1), Value2);
                 //Result_Num = Value2 * Math.sqrt(Value1);
             }
@@ -267,6 +343,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //上部のテキストビュー
             textView1.setText(String.valueOf(0.0));
+            return;
         }
     }
 
@@ -328,6 +405,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             //Value1をtextView1に上書きする
             textView1.setText(String.valueOf(Value2));
+
             return;
 
         }
@@ -387,6 +465,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
             //Value1をtextView1に上書きする
             textView1.setText(String.valueOf(Value1));
+
             return;
         }
 
