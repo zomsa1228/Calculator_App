@@ -1,9 +1,13 @@
 package com.example.myapplication2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -15,7 +19,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public Boolean once = true;
     public CharSequence text = "";
     public Integer enzan = 0;
-    public boolean enzan_once = true;
+    public Boolean enzan_once = true;
+    public Boolean Result_once = true;
     public Double Value4 = 0.0;
     public Integer valLen = 0;
     public String enzanVal = "";
@@ -262,34 +267,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //演算子 +-/*を押したときの処理
     public void enzan(View button){
         TextView textView1 = (TextView) findViewById(R.id.num1);
+            if(enzan_once == true) {
+                if (button.getId() == R.id.plus) {
+                    enzan = 1;
+                    enzanVal = " + ";
 
-        if (button.getId() == R.id.plus) {
-            enzan = 1;
-            enzanVal = " + ";
+                } else if (button.getId() == R.id.minus) {
+                    enzan = 2;
+                    enzanVal = " - ";
 
-        } else if (button.getId() == R.id.minus) {
-            enzan = 2;
-            enzanVal = " - ";
+                } else if (button.getId() == R.id.times) {
+                    enzan = 3;
+                    enzanVal = " × ";
 
-        } else if (button.getId() == R.id.times) {
-            enzan = 3;
-            enzanVal = " × ";
+                } else if (button.getId() == R.id.division) {
+                    enzan = 4;
+                    enzanVal = " ÷ ";
+                }
+                once = false;
 
-        } else if (button.getId() == R.id.division) {
-            enzan = 4;
-            enzanVal = " ÷ ";
-        }
-        once = false;
 
-        //文字を入れるためのkari変数を用意
-        //textView1のデータを取得する
-        textviewdata = textView1.getText();
+                //文字を入れるためのkari変数を用意
+                //textView1のデータを取得する
+                textviewdata = textView1.getText();
 
-        //取得したデータに入っている文字に、Value2の数値を文字連結する
-        textviewdata = textviewdata + String.valueOf(enzanVal);
+                //取得したデータに入っている文字に、Value2の数値を文字連結する
+                textviewdata = textviewdata + String.valueOf(enzanVal);
 
-        //テキストビューにデータを上書き
-        textView1.setText(textviewdata);
+                //テキストビューにデータを上書き
+                textView1.setText(textviewdata);
+
+                enzan_once = false;
+
+            }else if (enzan_once == false){
+                if (button.getId() == R.id.plus) {
+                    Result_Num = Value1 + Value2;
+
+                } else if (button.getId() == R.id.minus) {
+                    Result_Num = Value1 - Value2;
+
+                } else if (button.getId() == R.id.times) {
+                    Result_Num = Value1 * Value2;
+
+                } else if (button.getId() == R.id.division) {
+                    enzan = 4;
+                    Result_Num = Value1 / Value2;
+                }
+                textView1.setText(String.valueOf(Result_Num));
+            }
 
         return;
 
@@ -298,7 +323,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //=を押したときの処理
     public void equal(View equal){
         TextView textView1 = (TextView) findViewById(R.id.num1);
-
+        if (Result_once == true){
         if (equal.getId() == R.id.equal) {
             once = true;
             textView1.setText(String.valueOf(""));
@@ -326,10 +351,47 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Result_Num = Math.pow(Math.sqrt(Value1), Value2);
                 //Result_Num = Value2 * Math.sqrt(Value1);
             }
+            Result_once = false;
 
-            //Value1をtextView1に上書きする
-            textView1.setText(String.valueOf(Result_Num));
         }
+
+
+        }else if (Result_once == false){
+            if (equal.getId() == R.id.equal) {
+                once = false;
+                textView1.setText(String.valueOf(""));
+
+                if (enzan == 1) {
+                    Result_Num = Value1 + Result_Num;
+
+                } else if (enzan == 2) {
+
+                    Result_Num = Value1 - Result_Num;
+                } else if (enzan == 3) {
+
+                    Result_Num = Value1 * Result_Num;
+                } else if (enzan == 4) {
+
+                    Result_Num = Value1 / Result_Num;
+                } else if (enzan == 5) {
+
+                    Result_Num = Math.pow(Value1, Result_Num);
+
+                } else if (enzan == 6){
+
+                    System.out.println("Value1:"+Value1);
+                    System.out.println("Value2:"+Value2);
+                    Result_Num = Math.pow(Math.sqrt(Value1), Result_Num);
+                    //Result_Num = Value2 * Math.sqrt(Value1);
+                }
+
+            }
+            enzan_once = true;
+        }
+
+
+        //Value1をtextView1に上書きする
+        textView1.setText(String.valueOf(Result_Num));
     }
 
     public void Clear(View Clear){
@@ -340,6 +402,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Value2 = 0.0;
             Result_Num = 0.0;
             once = true;
+            Result_once = true;
+            enzan_once = true;
+
 
             //上部のテキストビュー
             textView1.setText(String.valueOf(0.0));
@@ -403,10 +468,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Value2 = (Value2 * 10) + input_num;
             }
 
-            //Value1をtextView1に上書きする
-            textView1.setText(String.valueOf(Value2));
+            if(Result_once == false){
+                textView1.setText(String.valueOf(Result_Num));
 
-            return;
+            }else if(Result_once == true){
+                //Value1をtextView1に上書きする
+                textView1.setText(String.valueOf(Value2));
+                return;
+            }
 
         }
 
@@ -463,10 +532,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Value1 = (Value1 * 10) + input_num;
 
             }
+            if(Result_once == false){
+                textView1.setText(String.valueOf(Result_Num));
+
+            }else if(Result_once == true){
             //Value1をtextView1に上書きする
             textView1.setText(String.valueOf(Value1));
-
             return;
+            }
         }
 
     }
